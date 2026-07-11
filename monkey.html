@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+
+    #controls {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+    }
+
+    button {
+      font-size: 28px;
+      width: 60px;
+      height: 60px;
+      margin: 10px;
+      border-radius: 30px;
+      border: none;
+      background: white;
+      cursor: pointer;
+    }
+  </style>
+
+</head>
+
+<body>
+
+<div id="controls">
+  <button onclick="resizeMonkey(0.1)">+</button>
+  <button onclick="resizeMonkey(-0.1)">-</button>
+</div>
+
+<a-scene
+    mindar-image="imageTargetSrc: ./target-monkey.mind;"
+    vr-mode-ui="enabled: false"
+    device-orientation-permission-ui="enabled: false">
+
+  <a-camera
+      position="0 0 0"
+      look-controls="enabled: false">
+  </a-camera>
+
+  <a-entity mindar-image-target="targetIndex: 0">
+
+    <a-plane
+        id="monkey"
+        src="./monkey.png"
+        position="0 0 0"
+        width="2"
+        height="2"
+        material="transparent: true; opacity: 1;"
+        scale="1 1 1">
+    </a-plane>
+
+  </a-entity>
+
+</a-scene>
+
+<script>
+
+let currentScale = 1;
+
+function resizeMonkey(change){
+
+    currentScale += change;
+
+    if(currentScale < 0.2)
+        currentScale = 0.2;
+
+    if(currentScale > 5)
+        currentScale = 5;
+
+    document
+        .querySelector("#monkey")
+        .setAttribute(
+            "scale",
+            `${currentScale} ${currentScale} ${currentScale}`
+        );
+}
+
+</script>
+
+</body>
+</html>
